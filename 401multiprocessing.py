@@ -15,7 +15,7 @@ if base_url != 'http://127.0.0.1:4000/':
 else:
     restricted_crawl = False
 
-def crawler(url):
+def crawl(url):
     reponse = requests.get(url)
     # time.sleep(0.1) # slightly delay for downloading
     return reponse.text
@@ -39,7 +39,7 @@ def parse(html):
 #             break
         
 #     print('\nDistributed Crawling...')
-#     htmls = [crawler(url) for url in unseen]
+#     htmls = [crawl(url) for url in unseen]
 
 #     print('\nDistributed Parsing...')
 #     results = [parse(html) for html in htmls]
@@ -53,7 +53,7 @@ def parse(html):
 #         count += 1
 #         unseen.update(page_urls - seen)     # get new url to crawl
 # print('Total time: %.1f s' % (time.time()-t1, ))    # 53 s
-# # Total time: 219.4 s
+# # Total time: 16.0 s
 
 # multiprocessing
 unseen = set([base_url,])
@@ -65,7 +65,7 @@ while len(unseen) != 0:                 # still get some url to visit
     if restricted_crawl and len(seen) > 20:
             break
     print('\nDistributed Crawling...')
-    crawl_jobs = [pool.apply_async(crawler, args=(url,)) for url in unseen]
+    crawl_jobs = [pool.apply_async(crawl, args=(url,)) for url in unseen]
     htmls = [j.get() for j in crawl_jobs]                                       # request connection
 
     print('\nDistributed Parsing...')
@@ -83,6 +83,6 @@ while len(unseen) != 0:                 # still get some url to visit
 print('Total time: %.1f s' % (time.time()-t1, ))    # 16 s !!!
 
 
-# crawler = crawler(base_url)
-# parse = parse(crawler)
-# print(parse)
+# # crawl = crawl(base_url)
+# # parse = parse(crawl )
+# # print(parse)
