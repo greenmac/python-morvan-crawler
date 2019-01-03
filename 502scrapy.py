@@ -18,6 +18,6 @@ class MofanSpider(scrapy.Spider):
         urls = response.css('a::attr(href)').re(r'^/.+?/$') # find all sub urls
         for url in urls:
             yield response.follow(url, callback=self.parse) # it will filter duplication automatically
-
+# pip install pypiwin32
 # lastly, run this in terminal
 # scrapy runspider 502scrapy.py -o res.json
